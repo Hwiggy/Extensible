@@ -24,8 +24,9 @@ abstract class AbstractLoader<D : Descriptor, E : Extension>(
 ) : ExtensionLoader<D, E> {
     /**
      * An index of the loaded [Extension]s known by this [ExtensionLoader]
+     * Marked as protected to expose the collection to implementation
      */
-    private val extensionIndex = HashMap<String, E>()
+    protected val extensionIndex = HashMap<String, E>()
 
     override fun loadExtensions(folder: File, filter: FileFilter): List<E> {
         val loadOrder = ArrayList<File>()
