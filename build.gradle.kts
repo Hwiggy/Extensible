@@ -22,8 +22,9 @@ java {
 
 publishing {
     repositories {
+        mavenLocal()
         when (project.findProperty("deploy") ?: "local") {
-            "local" -> mavenLocal()
+            "local" -> return@repositories
             "remote" -> maven {
                 if (project.version.toString().endsWith("-SNAPSHOT")) {
                     setUrl("https://nexus.mcdevs.us/repository/mcdevs-snapshots/")
