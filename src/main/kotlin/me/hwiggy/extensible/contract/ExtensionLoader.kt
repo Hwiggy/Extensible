@@ -61,12 +61,12 @@ interface ExtensionLoader<D : Descriptor, E : Extension> {
     /**
      * Searches the [extensionIndex] for an [Extension] by its name
      */
-    fun findModule(name: String): E?
+    fun findExtension(name: String): E?
 
     /**
      * Searches the [extensionIndex] for an [Extension] by its [Class]
      */
-    fun <T : E> getModule(type: Class<T>): T?
+    fun <T : E> getExtension(type: Class<T>): T?
 
     /**
      * Gets the values of the [extensionIndex] from this [ExtensionLoader]
