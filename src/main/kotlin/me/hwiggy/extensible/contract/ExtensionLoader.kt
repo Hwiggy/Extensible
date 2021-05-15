@@ -21,6 +21,11 @@ interface ExtensionLoader<D : Descriptor, E : Extension> {
     val strategy: LoadStrategy<D, E>
 
     /**
+     * An index of the loaded [Extension]s known by this [ExtensionLoader]
+     */
+    val extensionIndex: MutableMap<String, E>
+
+    /**
      * Attempts to load [Extension]s from the specified folder.
      * A [FileFilter] may be used to filter the types of [File] to attempt a load from.
      *
@@ -52,4 +57,19 @@ interface ExtensionLoader<D : Descriptor, E : Extension> {
      * @param[ex] The [Throwable] error to handle
      */
     fun handleUncaught(ex: Throwable)
+
+    /**
+     * Searches the [extensionIndex] for an [Extension] by its name
+     */
+    fun findModule(name: String): E?
+
+    /**
+     * Searches the [extensionIndex] for an [Extension] by its [Class]
+     */
+    fun <T : E> getModule(type: Class<T>): T?
+
+    /**
+     * Gets the values of the [extensionIndex] from this [ExtensionLoader]
+     */
+    fun getExtensions(): List<E>
 }

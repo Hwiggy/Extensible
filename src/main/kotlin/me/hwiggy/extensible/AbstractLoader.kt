@@ -25,11 +25,7 @@ import kotlin.collections.HashMap
 abstract class AbstractLoader<D : Descriptor, E : Extension>(
     override val strategy: LoadStrategy<D, E>
 ) : ExtensionLoader<D, E> {
-    /**
-     * An index of the loaded [Extension]s known by this [ExtensionLoader]
-     * Marked as public to expose the collection to implementation
-     */
-    val extensionIndex = HashMap<String, E>()
+    override val extensionIndex = HashMap<String, E>()
     override fun loadExtensions(folder: File, filter: FileFilter): List<E> {
         val loadOrder = ArrayList<File>()
         val fileIndex = HashMap<String, File>()
