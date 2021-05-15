@@ -10,6 +10,9 @@ import me.hwiggy.extensible.exception.InvalidExtensionException
 import me.hwiggy.extensible.exception.UnknownDependencyException
 import java.io.File
 import java.io.FileFilter
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * A basic implementation of the [ExtensionLoader] that bootstraps the [Extension] loading functions.
@@ -24,10 +27,9 @@ abstract class AbstractLoader<D : Descriptor, E : Extension>(
 ) : ExtensionLoader<D, E> {
     /**
      * An index of the loaded [Extension]s known by this [ExtensionLoader]
-     * Marked as protected to expose the collection to implementation
+     * Marked as public to expose the collection to implementation
      */
-    protected val extensionIndex = HashMap<String, E>()
-
+    val extensionIndex = HashMap<String, E>()
     override fun loadExtensions(folder: File, filter: FileFilter): List<E> {
         val loadOrder = ArrayList<File>()
         val fileIndex = HashMap<String, File>()
@@ -91,7 +93,9 @@ abstract class AbstractLoader<D : Descriptor, E : Extension>(
         descriptor.hardDependencies.toMutableSet()
             .apply { removeIf(extensionIndex::containsKey) }
             .let { if (it.isNotEmpty()) throw UnknownDependencyException(it) }
-        strategy.loadExtension(file).also(Extension::load)
+        strategy.loadExtension(file).also(Extension::load).also {
+            extensionIndex[name] = it
+        }
     } catch (err: Throwable) {
         throw CompositeException("Could not load extension ${file.path}", err)
     }
