@@ -3,28 +3,20 @@ package me.hwiggy.extensible
 import me.hwiggy.extensible.contract.Descriptor
 import me.hwiggy.extensible.contract.Extension
 import me.hwiggy.extensible.contract.ExtensionLoader
-import me.hwiggy.extensible.contract.LoadStrategy
 import me.hwiggy.extensible.exception.AmbiguousExtensionException
 import me.hwiggy.extensible.exception.CompositeException
 import me.hwiggy.extensible.exception.InvalidExtensionException
 import me.hwiggy.extensible.exception.UnknownDependencyException
 import java.io.File
 import java.io.FileFilter
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 /**
  * A basic implementation of the [ExtensionLoader] that bootstraps the [Extension] loading functions.
  *
- * @param[strategy] The [LoadStrategy] that should be used for this loader.
- *
  * @author Hunter N. Wignall
  * @version May 15, 2021
  */
-abstract class AbstractLoader<D : Descriptor, E : Extension>(
-    override val strategy: LoadStrategy<D, E>
-) : ExtensionLoader<D, E> {
+abstract class AbstractLoader<D : Descriptor, E : Extension>() : ExtensionLoader<D, E> {
     override val extensionIndex = HashMap<String, E>()
     override fun loadExtensions(folder: File, filter: FileFilter): List<E> {
         val loadOrder = ArrayList<File>()
