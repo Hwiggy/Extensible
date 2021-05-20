@@ -11,20 +11,20 @@ interface Extension {
     /**
      * Signals to the implementation that the load lifecycle is being run.
      */
-    fun load()
+    fun load() = Unit
 
     /**
      * Signals to the implementation that the enable lifecycle is being run.
      */
-    fun enable()
+    fun enable() = Unit
 
     /**
      * Signals to the implementation that the disable lifecycle is being run.
      */
-    fun disable()
+    fun disable() = Unit
 
     /**
-     * @return The source [File] for this Extension
+     * The source [File] for this Extension
      */
-    fun getSourceFile(): File
+    val sourceFile: File
 }

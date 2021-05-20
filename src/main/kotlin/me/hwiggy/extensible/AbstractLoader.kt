@@ -75,7 +75,7 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
         )
         extensionIndex[name]?.let { indexed ->
             throw AmbiguousExtensionException(
-                name, indexed.getSourceFile(), file
+                name, indexed.sourceFile, file
             )
         }
         descriptor.hardDependencies.toMutableSet()
