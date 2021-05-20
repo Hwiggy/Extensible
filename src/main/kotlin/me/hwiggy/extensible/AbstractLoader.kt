@@ -16,7 +16,7 @@ import java.io.FileFilter
  * @author Hunter N. Wignall
  * @version May 15, 2021
  */
-abstract class AbstractLoader<D : Descriptor, E : Extension>() : ExtensionLoader<D, E> {
+abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D, E> {
     override val extensionIndex = HashMap<String, E>()
     override fun loadExtensions(folder: File, filter: FileFilter): List<E> {
         val loadOrder = ArrayList<File>()
