@@ -81,10 +81,12 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
         descriptor.hardDependencies.toMutableSet()
             .apply { removeIf(extensionIndex::containsKey) }
             .let { if (it.isNotEmpty()) throw UnknownDependencyException(it) }
-        strategy.loadExtension(file).also(Extension::load).also {
+        strategy.loadExtension(file).also(this::performLoad).also {
             extensionIndex[name] = it
         }
     } catch (err: Throwable) {
         throw CompositeException("Could not load extension ${file.path}", err)
     }
+
+    abstract fun performLoad(extension: Extension)
 }
