@@ -60,7 +60,7 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
             ))
         }
         return loadOrder.mapNotNull {
-            try { strategy.loadExtension(it) }
+            try { loadExtension(it) }
             catch (ex: Exception) {
                 handleUncaught(ex); null
             }
