@@ -87,6 +87,4 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
     } catch (err: Throwable) {
         throw CompositeException("Could not load extension ${file.path}", err)
     }
-
-    abstract fun performLoad(extension: Extension)
 }

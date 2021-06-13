@@ -59,6 +59,12 @@ interface ExtensionLoader<D : Descriptor, E : Extension> {
     fun handleUncaught(ex: Throwable)
 
     /**
+     * Handles the loading for the provided [Extension]
+     * Allows for further customization of the load hook
+     */
+    fun performLoad(extension: E) = extension.load()
+
+    /**
      * Searches the [extensionIndex] for an [Extension] by its name
      */
     fun findExtension(name: String): E?
