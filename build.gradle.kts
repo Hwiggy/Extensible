@@ -15,11 +15,6 @@ dependencies {
     implementation(kotlin("stdlib"))
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
 publishing {
     repositories {
         mavenLocal()
