@@ -1,4 +1,4 @@
-package me.hwiggy.extensible
+package me.hwiggy.extensible.binding
 
 import me.hwiggy.extensible.contract.Descriptor
 import me.hwiggy.extensible.contract.Extension
@@ -87,4 +87,6 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
     } catch (err: Throwable) {
         throw CompositeException("Could not load extension ${file.path}", err)
     }
+
+    override fun close() { extensionIndex.clear() }
 }

@@ -1,5 +1,6 @@
 package me.hwiggy.extensible.contract
 
+import java.io.Closeable
 import java.io.File
 import java.io.FileFilter
 
@@ -14,7 +15,7 @@ import java.io.FileFilter
  * @author Hunter N. Wignall
  * @version May 15, 2021
  */
-interface ExtensionLoader<D : Descriptor, E : Extension> {
+interface ExtensionLoader<D : Descriptor, E : Extension> : Closeable {
     /**
      * The [LoadStrategy] that will provide a [Descriptor] and eventually an [Extension] from a file or folder.
      */
