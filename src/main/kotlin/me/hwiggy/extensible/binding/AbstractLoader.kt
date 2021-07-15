@@ -23,14 +23,14 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
         val fileIndex = HashMap<String, File>()
         val hardDependencies = HashMap<String, MutableSet<String>>()
         val softDependencies = HashMap<String, MutableSet<String>>()
-        folder.listFiles(filter)?.forEach {
+        folder.listFiles(filter)?.forEach { file ->
             try {
-                val descriptor = strategy.readDescriptor(it)
+                val descriptor = strategy.readDescriptor(file)
                 fileIndex.compute(descriptor.name) { name, indexed ->
-                    if (indexed != null) throw AmbiguousExtensionException(name, indexed, it)
-                    if (!permitExtension(name)) throw InvalidExtensionException(
-                        "Extension name '$name' not permitted! (${it.path})"
-                    ) else it
+                    if (indexed != null) throw AmbiguousExtensionException(name, indexed, file)
+                    if (!permitExtension(file, descriptor)) throw InvalidExtensionException(
+                        "Extension name '$name' not permitted! (${file.path})"
+                    ) else file
                 }
                 hardDependencies[descriptor.name] = descriptor.hardDependencies.toMutableSet()
                 softDependencies[descriptor.name] = descriptor.softDependencies.toMutableSet()
@@ -70,7 +70,7 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
     override fun loadExtension(file: File): E = try {
         val descriptor = strategy.readDescriptor(file)
         val name = descriptor.name
-        if (!permitExtension(name)) throw InvalidExtensionException(
+        if (!permitExtension(file, descriptor)) throw InvalidExtensionException(
             "Extension name '$name' not permitted! (${file.path})"
         )
         extensionIndex[name]?.let { indexed ->

@@ -48,10 +48,11 @@ interface ExtensionLoader<D : Descriptor, E : Extension> : Closeable {
 
     /**
      * Validates the name of an [Extension] before it is loaded.
-     * @param[name] The name of the [Extension] being checked
-     * @return Whether or not this name is permitted.
+     * @param[file] The file defining the [Extension] being loaded.
+     * @param[descriptor] The [Descriptor] stored inside this [Extension], for convenience.
+     * @return Whether or not this [Extension] should be permitted.
      */
-    fun permitExtension(name: String): Boolean
+    fun permitExtension(file: File, descriptor: D): Boolean
 
     /**
      * Handles uncaught [Throwable] errors from the implementation [ExtensionLoader]
