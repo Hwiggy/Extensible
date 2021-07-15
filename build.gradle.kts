@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.hwiggy"
-version = "1.4"
+version = "1.4.1"
 
 repositories {
     mavenCentral()

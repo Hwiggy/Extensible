@@ -47,6 +47,13 @@ interface ExtensionLoader<D : Descriptor, E : Extension> : Closeable {
     fun loadExtension(file: File): E
 
     /**
+     * Injects an [Extension] into the [extensionIndex] with a specified name.
+     * @param[name] The name of the [Extension] to index.
+     * @param[extension] The [Extension] to be indexed.
+     */
+    fun indexExtension(name: String, extension: E)
+
+    /**
      * Validates the name of an [Extension] before it is loaded.
      * @param[file] The file defining the [Extension] being loaded.
      * @param[descriptor] The [Descriptor] stored inside this [Extension], for convenience.
