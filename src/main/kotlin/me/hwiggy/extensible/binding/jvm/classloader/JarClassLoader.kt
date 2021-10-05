@@ -24,7 +24,7 @@ class JarClassLoader(
     ): Class<*> = classCache[name] ?: try {
         val className = name.replace(".", "/").plus(".class")
         jar.getJarEntry(className)?.let {
-            jar.getInputStream(it)?.use(InputStream::readAllBytes)
+            jar.getInputStream(it)?.use(InputStream::readBytes)
         }?.let { defineClass(name, it, 0, it.size) }
     } catch (ex: Exception) {
         try {
