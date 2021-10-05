@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.hwiggy"
-version = "1.4.1"
+version = "1.4.1-java8"
 
 repositories {
     mavenCentral()
@@ -39,5 +39,11 @@ publishing {
         create<MavenPublication>("assembly") {
             from(components["java"])
         }
+    }
+}
+
+tasks {
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
     }
 }
