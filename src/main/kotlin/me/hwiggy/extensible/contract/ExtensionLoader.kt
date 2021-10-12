@@ -81,7 +81,7 @@ interface ExtensionLoader<D : Descriptor, E : Extension> : Closeable {
     /**
      * Searches the [extensionIndex] for an [Extension] by its [Class]
      */
-    fun <T : E> getExtension(type: Class<T>): T?
+    fun <T : E> getExtension(type: Class<T>): E?
 
     /**
      * Gets the values of the [extensionIndex] from this [ExtensionLoader]

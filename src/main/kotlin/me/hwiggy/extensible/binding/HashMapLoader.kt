@@ -12,11 +12,12 @@ import java.io.FileFilter
 
 /**
  * A basic implementation of the [ExtensionLoader] that bootstraps the [Extension] loading functions.
+ * Extensions are stored in a HashMap, with their name as the key.
  *
  * @author Hunter N. Wignall
  * @version May 15, 2021
  */
-abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D, E> {
+abstract class HashMapLoader<D : Descriptor, E : Extension> : ExtensionLoader<D, E> {
     override val extensionIndex = HashMap<String, E>()
     override fun loadExtensions(folder: File, filter: FileFilter): List<E> {
         val loadOrder = ArrayList<File>()
@@ -34,7 +35,9 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
                 }
                 hardDependencies[descriptor.name] = descriptor.hardDependencies.toMutableSet()
                 softDependencies[descriptor.name] = descriptor.softDependencies.toMutableSet()
-            } catch (ex: Exception) { handleUncaught(ex) }
+            } catch (ex: Exception) {
+                handleUncaught(ex)
+            }
         }
         do {
             // Find extensions with no hard dependencies, preferring ones with no soft dependencies
@@ -54,14 +57,17 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
             softDependencies.values.forEach { it.removeAll(next) }
         } while (next.isNotEmpty())
         hardDependencies.forEach { (extension, unresolved) ->
-            handleUncaught(CompositeException(
-                "Could not load extension '$extension'!",
-                UnknownDependencyException(unresolved)
-            ))
+            handleUncaught(
+                CompositeException(
+                    "Could not load extension '$extension'!",
+                    UnknownDependencyException(unresolved)
+                )
+            )
         }
         return loadOrder.mapNotNull {
-            try { loadExtension(it) }
-            catch (ex: Exception) {
+            try {
+                loadExtension(it)
+            } catch (ex: Exception) {
                 handleUncaught(ex); null
             }
         }
@@ -86,9 +92,21 @@ abstract class AbstractLoader<D : Descriptor, E : Extension> : ExtensionLoader<D
         throw CompositeException("Could not load extension ${file.path}", err)
     }
 
+    override fun permitExtension(file: File, descriptor: D) = true
+    override fun handleUncaught(ex: Throwable) = ex.printStackTrace()
     override fun indexExtension(name: String, extension: E) {
         extensionIndex[name] = extension
     }
 
-    override fun close() { extensionIndex.clear() }
+    override fun findExtension(name: String) = extensionIndex.entries.find {
+        it.key.equals(name, true)
+    }?.value
+
+    override fun <T : E> getExtension(type: Class<T>): E? = extensionIndex.values.find { it.javaClass == type }
+
+    override fun getExtensions() = extensionIndex.values.toList()
+
+    override fun close() {
+        extensionIndex.clear()
+    }
 }

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.hwiggy"
-version = "1.4.1-java8"
+version = "1.4.2-java8"
 
 repositories {
     mavenCentral()
