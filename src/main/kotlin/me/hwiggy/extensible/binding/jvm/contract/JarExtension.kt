@@ -28,10 +28,4 @@ abstract class JarExtension<D : JarDescriptor> : Extension {
      */
     final override val sourceFile
         get() = lazySource
-
-    /**
-     * Returns the name from the extension's lazy descriptor.
-     */
-    val name: String
-        get() = descriptor.name
 }
