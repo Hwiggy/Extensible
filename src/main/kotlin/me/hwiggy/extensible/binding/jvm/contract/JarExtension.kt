@@ -24,10 +24,14 @@ abstract class JarExtension<D : JarDescriptor> : Extension {
         internal set
 
     /**
-     * Evaluates the lazySource to return the true source
-     * Caches the result.
+     * Evaluates the lazySource to get the JAR source file.
      */
-    final override val sourceFile by lazy { lazySource }
+    final override val sourceFile
+        get() = lazySource
 
-    val name by lazy(descriptor::name)
+    /**
+     * Returns the name from the extension's lazy descriptor.
+     */
+    val name: String
+        get() = descriptor.name
 }
