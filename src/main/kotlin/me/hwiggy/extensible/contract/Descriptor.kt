@@ -3,6 +3,7 @@ package me.hwiggy.extensible.contract
 /**
  * A [Descriptor] holds pertinent information about an Extension such as:
  * `name`: The name of the Extension
+ * `version`: The version of the Extension
  * `hardDependencies`: Extensions required to be present before loading
  * `softDependencies`: Extensions optionally present before loading
  *
@@ -13,6 +14,7 @@ package me.hwiggy.extensible.contract
  */
 interface Descriptor {
     val name: String
+    val version: String
     val hardDependencies: List<String>
     val softDependencies: List<String>
 }
